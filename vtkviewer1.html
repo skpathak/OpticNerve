@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subject 04 Rendering</title>
+    <script src="https://unpkg.com/vtk.js"></script>
+</head>
+<body>
+    <div id="container" style="width: 800px; height: 600px;"></div>
+
+    <script type="text/javascript">
+        const vtkFullScreenRenderWindow = vtk.Rendering.Misc.vtkFullScreenRenderWindow;
+        const vtkPLYReader = vtk.IO.Geometry.vtkPLYReader;
+        const vtkActor = vtk.Rendering.Core.vtkActor;
+        const vtkMapper = vtk.Rendering.Core.vtkMapper;
+    
+        const renderWindow = vtkFullScreenRenderWindow.newInstance({
+          background: [1, 1, 1], // white background
+          rootContainer: container,
+        });
+        const renderer = renderWindow.getRenderer();
+        const renderWindowInteractor = renderWindow.getInteractor();
+    
+        // Modified loadPLY function to return a promise
+        function loadPLY(filePath, opacity, color) {
+            const reader = vtkPLYReader.newInstance();
+            return reader.setUrl(filePath).then(() => {
+                const mapper = vtkMapper.newInstance();
+                mapper.setInputConnection(reader.getOutputPort());
+    
+                const actor = vtkActor.newInstance();
+                actor.setMapper(mapper);
+                actor.getProperty().setOpacity(opacity);
+                actor.getProperty().setColor(...color);
+    
+                renderer.addActor(actor);
+                return actor; // Return the actor for further use if needed
+            });
+        }
+    
+        // Use Promise.all to wait for all models to load
+        Promise.all([
+            loadPLY('./segmented02.ply', 1.0, [0.612, 0.612, 0.612]),
+            ]).then(() => {
+            renderer.resetCamera(); // Adjust camera after all models are loaded
+            renderWindow.render(); // Optionally force a render here
+        });
+    </script>
+    
+</body>
+</html>
