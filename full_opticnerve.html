@@ -91,7 +91,7 @@
         // Create renderer and add to HTML
         const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance({
             rootContainer: document.querySelector('#vtkContainer'),
-            background: [0.2, 0.3, 0.4]
+            background: [1.0 , 1.0, 1.0]
         });
         const renderer = fullScreenRenderer.getRenderer();
         const renderWindow = fullScreenRenderer.getRenderWindow();
@@ -107,6 +107,7 @@
             mapper.setInputData(polydata);
 
             renderer.addActor(actor);
+            actor.getProperty().setColor(238.0/255.0, 212.0/255.0, 168.0/255.0);
             renderer.resetCamera();
             renderWindow.render();
 
