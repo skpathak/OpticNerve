@@ -151,6 +151,9 @@ window.addEventListener('resize', () => {
     fullScreenRenderer.resize();
 });
 
+// Load File 2 by default
+loadFile2();
+
 function hexToRgb(hex) {
     const bigint = parseInt(hex.slice(1), 16);
     const r = (bigint >> 16) & 255;
