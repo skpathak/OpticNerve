@@ -98,7 +98,7 @@
 
         // Create a surface from PLY file
         const reader = vtkPLYReader.newInstance();
-        reader.setUrl('segmented02.ply').then(() => {
+        reader.setUrl('optic_nerve.ply').then(() => {
             const polydata = reader.getOutputData(0);
             const mapper = vtkMapper.newInstance();
             const actor = vtkActor.newInstance();
